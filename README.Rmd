@@ -140,7 +140,7 @@ DataF <-cbind(featData, DataV)
 
 **`DataF`** is the reference for the merging part of the assignment. This is the working dataset we have worked for.
 
-**2) Extract data:**
+**2) Extracting data:**
 
 Based on the assigned task, not all the information on the working dataset are useful. Therefore, the project assignment asked to extract or sort data on related to mean and standard deviation of the measurement. 
 I used the function grep() to find any name that matches or contains characters mean, std, mean(), std().
