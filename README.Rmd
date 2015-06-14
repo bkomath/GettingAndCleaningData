@@ -1,8 +1,9 @@
-```{r align=CENTER}
-Getting And Cleaning Project From John Hopkins University Through Coursera
-```
+
+# Getting And Cleaning: Project From John Hopkins University Through Coursera
+
 
 The objectif of this project is to acquire and process data to obtain a tidy data set ready for analysis.
+
 ---
 
 ## Getting and cleaning data provide a method to be followed: 
@@ -156,7 +157,7 @@ selcName <- c(as.character(findDescName), "subject", "activity")
 ```
 **tid1** represents the subset data from **DataF**(merged dataset).
 
-**3) Labelling variables:
+**3) Labelling variables:**
 
 * Uses descriptive activity names to name the activities in the data set.
    
@@ -176,9 +177,9 @@ selcName <- c(as.character(findDescName), "subject", "activity")
    tid1$activity[tid1$activity == 5] <- "Standing"
    tid1$activity[tid1$activity == 6] <- "Laying"
    ```
-*4) Appropriately labels the data set with descriptive variable names.
+   * Appropriately labels the data set with descriptive variable names.
 
-gsub() function is used to perform all matches (http://www.inside-r.org/r-doc/base/sub)
+**gsub()** function is used to perform all matches (http://www.inside-r.org/r-doc/base/sub)
 ```{r eval=FALSE}
 names(tid1)<-gsub("^t", "time", names(tid1))
 names(tid1)<-gsub("^f", "frequency", names(tid1))
@@ -189,7 +190,7 @@ names(tid1)<-gsub("BodyBody", "Body", names(tid1))
 ```
 ----
 
-** III) Providing tidy data sets.
+##**III) Providing a tidy data set:**
 
 *First tidy data set:
 After committing change in **tid1** we obtain a tidy data set called **tidyData1**.
