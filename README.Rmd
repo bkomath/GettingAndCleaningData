@@ -192,14 +192,16 @@ names(tid1)<-gsub("BodyBody", "Body", names(tid1))
 
 ##**III) Providing a tidy data set:**
 
-*First tidy data set:
+* First tidy data set:
+
 After committing change in **tid1** we obtain a tidy data set called **tidyData1**.
+
 ```{r eval=FALSE}
 tidyData1 <- tid1
 ```
-As a project task:  From the data set in step 4, creates a second, independent tidy data set with average of each variable for each activity and each subject.
+* As a project task:  From the data set in step 4, creates a second, independent tidy data set with average of each variable for each activity and each subject.
 
-```{r}
+```{r eval=FALSE}
 library(data.table)
 
 data.dt <- data.table(tidyData1)
@@ -207,6 +209,8 @@ data.dt <- data.table(tidyData1)
 TidyData <-aggregate(.~subject + activity, data.dt, mean)
 ## make in order:
 TidyData <-TidyData[order(TidyData$subject, TidyData$activity),]
-## Save the TidyData on my current directory
+```
+Save the TidyData on my current directory. This will be final ouput file in txt format. 
+```{r eval=FALSE}
 write.table(TidyData, file = "Tidy2.txt", row.names = FALSE)
 ```
