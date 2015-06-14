@@ -8,6 +8,7 @@ The objectif of this project is to acquire and process data to obtain a tidy dat
 ## Pre-requiresist
 Before doing any of this step, we need to setup the working environment including path and directory for the incoming database. 
 
+---
 ###**I) Acquiring Data:**
 All start by getting the dataset first. Our dataset is zipfile on the link bellow. https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip
 * Download the zipfile using **download.file()** function.
@@ -18,8 +19,9 @@ All start by getting the dataset first. Our dataset is zipfile on the link bello
 `unzip(zipfile="./dbase/samsgs.zip", exdir="./dbase")`. This will make work done.
 
 * Check out what is inside of that generated folder caused by unzip().
-we need to provide new path and list all the things inside of that folder. A function **list.files()** which takes *reper* (directory of the new created folder) as argument: See Full command bellow
-`fich <- list.files(reper, recursive=TRUE)`
+we need to provide new path and list all the things inside of that folder. A function **list.files()** which takes *reper* (directory of the new created folder) as argument: See command bellow
+```{r eval=FALSE}
+fich <- list.files(reper, recursive=TRUE)
 
 [1] "activity_labels.txt"                         
 [2] "features.txt"                                
@@ -49,7 +51,9 @@ we need to provide new path and list all the things inside of that folder. A fun
 [26] "train/subject_train.txt"                     
 [27] "train/X_train.txt"                           
 [28] "train/y_train.txt" 
+```
 
+----
 ###**II) Transform for specific needs:**
   >  One of the main goals of this stage is to merge (combine) specific data. Until now, we don't have a working dataset yet.
   
@@ -60,32 +64,39 @@ We have three components that deal with traing and test datasets: They are **act
   
    * Acquire activities based information on trainning and testing.
 
-   `activityTrainData <- read.table(file.path(reper, "train", "y_train.txt"), header=FALSE)`
+   ```{r eval=FALSE}
+   activityTrainData <- read.table(file.path(reper, "train", "y_train.txt"), header=FALSE)
    
-   `activityTestData <- read.table(file.path(reper, "test", "y_test.txt"), header=FALSE)`
+   activityTestData <- read.table(file.path(reper, "test", "y_test.txt"), header=FALSE)
+   ```
    
    * Acquire features based information on trainning and testing.
    
-   `featureTrainData <- read.table(file.path(reper, "train", "X_train.txt"), header=FALSE)`
+   ```{r eval=FALSE}
+   featureTrainData <- read.table(file.path(reper, "train", "X_train.txt"), header=FALSE)
 
-   `featureTestData <- read.table(file.path(reper, "test", "X_test.txt"), header=FALSE)`
+   featureTestData <- read.table(file.path(reper, "test", "X_test.txt"), header=FALSE)
+   ```
 
    * Acquire subjects based information on trainning and testing.
    
-   `subjectTrainData <- read.table(file.path(reper, "train", "subject_train.txt"), header=FALSE)`
+   ```{r eval=FALSE}
+   subjectTrainData <- read.table(file.path(reper, "train", "subject_train.txt"), header=FALSE)
 
-   `subjectTestData <- read.table(file.path(reper, "test", "subject_test.txt"), header=FALSE)`
+   subjectTestData <- read.table(file.path(reper, "test", "subject_test.txt"), header=FALSE)
+   ```
 
 Merging data requires concatenation, creating new variable names or manipulating with existing name.
 
 *  Example of concatenation:
 I used rbind() command to concatenate by row each variable data  into one variable data (activity data, subject data, and feature data). In order words a reduction of variables. See scripts bellow.
-      
-   `actData <- rbind(activityTrainData, activityTestData)` for activities data.
-   
-   `subjData <- rbind(subjectTrainData, subjectTestData)` for subjects data.
-   
-   `featData <- rbind(featureTrainData, featureTestData)` for features data.
+   Data for activities 
+   ````{r eval=FALSE} actData <- rbind(activityTrainData, activityTestData)```
+   Data for subjects
+   ```{r eval=FALSE} subjData <- rbind(subjectTrainData, subjectTestData)``` 
+   Data for features
+   ```{r eval=FALSE} featData <- rbind(featureTrainData, featureTestData)```
+
 * Example of assigning names:
 Giving names to created variables above is a required task of the project assignments.
 
@@ -95,10 +106,11 @@ This will assign **activity** as a name for the combine activities' training and
    `names(subjData) <- c("subject")`
 This will assign **subject** as a name for the combine subjects' training and test data.
 
-    We need to keep the same names as original data set for the variable "featData".
+We need to capture the original names under `features.txt` for "featData".
     
     `FeatureOldName <- read.table(file.path(reper, "features.txt"), head=FALSE)`
-This is going to be read and store under **feature.txt** file on the variable **FeatureOldName**. FeatureOldName$V2 is the actual field where those names are located.
+    
+This is going to read the **feature.txt** file and store it under **FeatureOldName**. `FeatureOldName$V2` is the actual field where those names are located.
 
 `names(featData ) <- FeatureOldName$V2` setup the names.
 
@@ -113,10 +125,18 @@ Now we can create the dataset of the 3 variables  by using cbind() function.
 Based on the assigned task, not all the information on the working dataset are useful. Therefore, the project assignment asked to extract or sort data on related to mean and standard deviation of the measurement. 
 I used the function grep() to find any name that matches or contains characters mean, std, mean(), std().
 
- ```findDescName <- FeatureOldName$V2[grep("mean\\(\\)|std\\(\\)", FeatureOldName$V2]```: this command gives all the expected names.
+ ```{r eval=FALSE}
+ findDescName <- FeatureOldName$V2[grep("mean\\(\\)|std\\(\\)", FeatureOldName$V2]
+ ```
+ this command gives all the expected names.
    
 *Create a subset data frame based on the descriptive variables, subjectData, actData*
-          selcName <- c(as.character(findDescName), "subject", "activity")
-          tid1<-  DataF[selcName]`
+```{r eval=FALSE} 
+selcName <- c(as.character(findDescName), "subject", "activity")
+   tid1<-  DataF[selcName]
+```
+**tid1** represents the subset data from **DataF**(merged dataset)
+```{r eval=FALSE}
+```
 gsub() function 
 
