@@ -1,6 +1,11 @@
-# Getting And Cleaning Project from John Hopkins University Through Coursera
+```{r align=CENTER}
+Getting And Cleaning Project From John Hopkins University Through Coursera
+```
+
 The objectif of this project is to acquire and process data to obtain a tidy data set ready for analysis.
-## Getting and cleaning data follow some processes. 
+---
+
+## Getting and cleaning data provide a method to be followed: 
 >* Acquiring Data 
 >* Transforming for a specific need.
 >* Providing a tidy dataset
@@ -90,53 +95,117 @@ Merging data requires concatenation, creating new variable names or manipulating
 
 *  Example of concatenation:
 I used rbind() command to concatenate by row each variable data  into one variable data (activity data, subject data, and feature data). In order words a reduction of variables. See scripts bellow.
-   Data for activities 
-   ````{r eval=FALSE} actData <- rbind(activityTrainData, activityTestData)```
-   Data for subjects
-   ```{r eval=FALSE} subjData <- rbind(subjectTrainData, subjectTestData)``` 
-   Data for features
-   ```{r eval=FALSE} featData <- rbind(featureTrainData, featureTestData)```
+
+  Storing data for activities:
+   ```{r eval=FALSE}
+   actData <- rbind(activityTrainData, activityTestData)
+   ```
+  Storing data for subjects:
+   ```{r eval=FALSE} 
+   subjData <- rbind(subjectTrainData, subjectTestData)
+   ``` 
+  Storing data for features:
+   ```{r eval=FALSE} 
+   featData <- rbind(featureTrainData, featureTestData)
+   ```
 
 * Example of assigning names:
 Giving names to created variables above is a required task of the project assignments.
 
-   `names(actData) <- c("activity")`
-This will assign **activity** as a name for the combine activities' training and test data.
-
-   `names(subjData) <- c("subject")`
-This will assign **subject** as a name for the combine subjects' training and test data.
-
-We need to capture the original names under `features.txt` for "featData".
-    
-    `FeatureOldName <- read.table(file.path(reper, "features.txt"), head=FALSE)`
-    
+   
+Assign **activity** as a name for the combined training and test activities' data.
+```{r eval=FALSE}
+names(actData) <- c("activity")
+```
+Assign **subject** as a name to the combined training and test subjects' data.
+```{r eval=FALSE}
+names(subjData) <- c("subject")
+```
+We need to capture the original names under `features.txt` to assign to "featData".
+   ``` {r eval=FALSE} 
+   FeatureOldName <- read.table(file.path(reper, "features.txt"), head=FALSE)
+   ```
+   
 This is going to read the **feature.txt** file and store it under **FeatureOldName**. `FeatureOldName$V2` is the actual field where those names are located.
 
 `names(featData ) <- FeatureOldName$V2` setup the names.
 
 Now we can create the dataset of the 3 variables  by using cbind() function.
 
-`DataV <- cbind(subjData, actData)`
-`DataF <-cbind(featData, DataV)`
+```{r eval=FALSE}
+DataV <- cbind(subjData, actData)
+DataF <-cbind(featData, DataV)
+```
 
 **`DataF`** is the reference for the merging part of the assignment. This is the working dataset we have worked for.
 
-**2) Extract data**
+**2) Extract data:**
+
 Based on the assigned task, not all the information on the working dataset are useful. Therefore, the project assignment asked to extract or sort data on related to mean and standard deviation of the measurement. 
 I used the function grep() to find any name that matches or contains characters mean, std, mean(), std().
 
  ```{r eval=FALSE}
  findDescName <- FeatureOldName$V2[grep("mean\\(\\)|std\\(\\)", FeatureOldName$V2]
  ```
- this command gives all the expected names.
+ This command gives all the expected names.
    
 *Create a subset data frame based on the descriptive variables, subjectData, actData*
 ```{r eval=FALSE} 
 selcName <- c(as.character(findDescName), "subject", "activity")
    tid1<-  DataF[selcName]
 ```
-**tid1** represents the subset data from **DataF**(merged dataset)
-```{r eval=FALSE}
-```
-gsub() function 
+**tid1** represents the subset data from **DataF**(merged dataset).
 
+**3) Labelling variables:
+
+* Uses descriptive activity names to name the activities in the data set.
+   
+   * Check the what names are under "activity_labels.txt"
+   
+   ```{r eval=FALSE}
+   activityNames <- read.table(file.path(reper, "activity_labels.txt"),header = FALSE)
+   ```
+   * We first convert column activity as string characters
+   
+   ```{r eval=FALSE}
+   tid1$activity <- as.character(tid1$activity)
+   tid1$activity[tid1$activity == 1] <- "Walking"
+   tid1$activity[tid1$activity == 2] <- "Walking Upstairs"
+   tid1$activity[tid1$activity == 3] <- "Walking Downstairs"
+   tid1$activity[tid1$activity == 4] <- "Sitting"
+   tid1$activity[tid1$activity == 5] <- "Standing"
+   tid1$activity[tid1$activity == 6] <- "Laying"
+   ```
+*4) Appropriately labels the data set with descriptive variable names.
+
+gsub() function is used to perform all matches (http://www.inside-r.org/r-doc/base/sub)
+```{r eval=FALSE}
+names(tid1)<-gsub("^t", "time", names(tid1))
+names(tid1)<-gsub("^f", "frequency", names(tid1))
+names(tid1)<-gsub("Acc", "Accelerometer", names(tid1))
+names(tid1)<-gsub("Gyro", "Gyroscope", names(tid1))
+names(tid1)<-gsub("Mag", "Magnitude", names(tid1))
+names(tid1)<-gsub("BodyBody", "Body", names(tid1))
+```
+----
+
+** III) Providing tidy data sets.
+
+*First tidy data set:
+After committing change in **tid1** we obtain a tidy data set called **tidyData1**.
+```{r eval=FALSE}
+tidyData1 <- tid1
+```
+As a project task:  From the data set in step 4, creates a second, independent tidy data set with average of each variable for each activity and each subject.
+
+```{r}
+library(data.table)
+
+data.dt <- data.table(tidyData1)
+## Create tidy data set
+TidyData <-aggregate(.~subject + activity, data.dt, mean)
+## make in order:
+TidyData <-TidyData[order(TidyData$subject, TidyData$activity),]
+## Save the TidyData on my current directory
+write.table(TidyData, file = "Tidy2.txt", row.names = FALSE)
+```
