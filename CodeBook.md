@@ -30,7 +30,7 @@ We are interested to 3 components and associated files.
 
 ### Extracting data:
 
-**tid1** is the first tidy data set obtain from **DataF**(merged dataset).(For more informations see https://github.com/bkomath/GettingAndCleaningData/blob/master/README.Rmd)
+**tid1** is the first tidy data set obtain from **DataF**(merged dataset). (For more informations see https://github.com/bkomath/GettingAndCleaningData/blob/master/README.Rmd)
 
 #### Create second tidy data set:
 **TidyData** is the final tidy data set with the average of each variable for each activity and each subject. 
