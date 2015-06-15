@@ -1,7 +1,9 @@
 # CodeBook For Getting And Cleaning Data Project
+---
 
-## Download from the given url the zip file and unzip it. 
- Based on the assignment, we are interested to 3 variables and associated files.
+## Download raw data set
+Unzip the downloaded zip file and load it to Rstudio.
+We are interested to 3 components and associated files.
  
 **1)  Variable activities:**
 ```{r}
