@@ -4,7 +4,7 @@
 ## Download raw data set
 Unzip the downloaded zip file and load it to Rstudio.
 
-**fich** is the container of all the ```txt``` files from the unzip folder.
+**fich** is the container for all the ```txt``` files from the unzip folder.
 ```{r eval=FALSE}
 fich <- list.files(reper, recursive=TRUE)
 ```
@@ -46,7 +46,9 @@ We are interested to 3 components and associated files.
 
 ----
 
-#### Merging and labelling:
+#### Merging and labelling
+> **Created Variables:**
+
 **actData:** stores the combined data for both  *train* and *test* activities.
 
 **subjData:** stores the combined data for both  *train* and *test* subjects.
@@ -62,7 +64,13 @@ We are interested to 3 components and associated files.
 -----
 ##### Extracting data:
 
-**tid1** is the first tidy data set obtain from **DataF**(merged dataset). (For more informations see https://github.com/bkomath/GettingAndCleaningData/blob/master/README.Rmd)
+> **Created variables:**
+
+**findDescName:** stores found descriptive names.
+
+**selcName:** holds selected names from `findDescName`.
+
+**tid1 = tidyData1** is the first tidy data set obtain from **DataF**(merged dataset). (For more informations see https://github.com/bkomath/GettingAndCleaningData/blob/master/README.Rmd)
 
 ####### Create second tidy data set:
 **TidyData** is the final tidy data set with the average of each variable for each activity and each subject. 
