@@ -105,7 +105,7 @@ str(tid1)
 ## Our first tidy data.
 tidyData1 <- tid1
 str(tidyData1)
-write.table(tidyData1, file = "Tidy1.csv", row.names = FALSE)
+write.table(tidyData1, file = "Tidy1.txt", row.names = FALSE)
 
 ## 5) From the data set in step 4, creates a second, independent tidy data set with average of each variable for each activity and each subject.
 library(data.table)
@@ -113,4 +113,4 @@ data.dt <- data.table(tidyData1)
 str(data.dt)
 TidyData <-aggregate(.~subject + activity, data.dt, mean)
 TidyData <-TidyData[order(TidyData$subject, TidyData$activity),]
-write.table(TidyData, file = "Tidy2.csv", row.names = FALSE)
+write.table(TidyData, file = "Tidy2.txt", row.names = FALSE)
