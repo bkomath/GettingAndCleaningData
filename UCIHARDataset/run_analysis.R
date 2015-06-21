@@ -1,7 +1,7 @@
-setwd("C:/Coursera/DataScience/GettingCleaning/Projects") ## Set up the working directory
-##Create a directory "dbase" for the dataset
-if(!file.exists("./dbase")){
-  dir.create("./dbase")}
+## setwd("./Coursera/DataScience/GettingCleaning/Projects") ## Set up the working directory
+## Create a directory "dbase" for the dataset
+## if(!file.exists("./dbase")){
+##  dir.create("./dbase")}
 ## Get the URL of the dataset in zip format
 fileUrl <- "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip"
 
@@ -12,7 +12,7 @@ download.file(fileUrl, destfile="./dbase/samsgs.zip")
 unzip(zipfile="./dbase/samsgs.zip", exdir="./dbase")
 
 ## construct the path of the dataset
-reper <- file.path("./dbase", "UCI HAR Dataset")
+reper <- file.path("./dbase", "UCIHARDataset")
 reper
 ## list the files contained in the data set.
 fich <- list.files(reper, recursive=TRUE)
@@ -105,7 +105,7 @@ str(tid1)
 ## Our first tidy data.
 tidyData1 <- tid1
 str(tidyData1)
-write.table(tidyData1, file = "Tidy1.txt", row.names = FALSE)
+## write.table(tidyData1, file = "Tidy1.txt", row.names = FALSE)
 
 ## 5) From the data set in step 4, creates a second, independent tidy data set with average of each variable for each activity and each subject.
 library(data.table)
